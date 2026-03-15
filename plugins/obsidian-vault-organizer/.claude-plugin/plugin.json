@@ -1,0 +1,9 @@
+{
+  "name": "obsidian-vault-organizer",
+  "version": "1.0.0",
+  "description": "Organize your Obsidian vault — add notes, daily entries, audit tags, search, get briefings, and explore connections.",
+  "author": {
+    "name": "Pat Jerus"
+  },
+  "keywords": ["obsidian", "vault", "notes", "knowledge-management", "tagging"]
+}
