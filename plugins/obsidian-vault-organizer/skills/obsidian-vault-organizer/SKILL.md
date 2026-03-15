@@ -41,7 +41,7 @@ Write the chosen path to `${CLAUDE_PLUGIN_ROOT}/vault-config.json`:
 
 ```json
 {
-  "vault_path": "/Users/pat/Obsidian_Vault/TechVault"
+  "vault_path": "/Users/pat/Library/Mobile Documents/iCloud~md~obsidian/Documents/TechVault"
 }
 ```
 
@@ -62,6 +62,20 @@ git -C <vault-path> rev-parse --is-inside-work-tree 2>/dev/null
 **Default behavior: no git operations.** Just write files. The user likely uses Obsidian Sync or manages git themselves.
 
 Only run `git add`, `git commit`, or `git push` if the user **explicitly asks** (e.g., "commit that", "push my changes").
+
+### iCloud + Git Split Layout
+
+The vault uses a **separate git directory** to avoid iCloud corrupting `.git/` internals:
+
+- **Vault content** (iCloud-synced): `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/TechVault/`
+- **Git internals** (local only): `~/Obsidian_Vault/TechVault.git/`
+- The vault's `.git` is a **pointer file** (`gitdir: ...`), not a directory
+
+**Guardrails:**
+- Never run `git init` or create `.git/` directories inside the iCloud vault path
+- Never move or copy `.git/` internals into iCloud
+- If `git` commands fail with lock errors (`HEAD.lock`, `index.lock`), check for stale locks from iCloud/Spotlight before retrying
+- The `GIT_DIR` is automatically resolved via the `.git` pointer file — standard `git` commands work normally from the vault path
 
 ---
 
